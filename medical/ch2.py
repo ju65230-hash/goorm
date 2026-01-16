@@ -18,7 +18,7 @@ major_radius=5
 minor_radius=3
 area=math.pi*5*3
 
-print(f"세포 면적: {area:.2f}μm^2")
+print(f"세포 면적: {area:.2f} μm^2")
 
 # No.6 자동 건강검진 판정기
 # 상황: 우리 병원에서는 BMI 수치에 따라 비만 여부를 자동으로 판정해 주는 시스템이 필요합니다.
