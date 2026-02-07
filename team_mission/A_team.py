@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pandas as pd
 from pathlib import Path
 import plotly.graph_objects as go
@@ -9,19 +10,11 @@ from plotly.subplots import make_subplots
 # -----------------------------
 def load_data():
     base_dir = Path(__file__).resolve().parent
-    data_path = base_dir / "시군구별_월별_확진자_사망_발생현황_통합.csv"
+    data_path = base_dir / "data" / "cleaned_covid_data.csv"
     df = pd.read_csv(data_path)
-    df["날짜"] = pd.to_datetime(df["날짜"])
-
-    # 날짜별, 유형별 합계 계산
-    df_agg = df.groupby(["날짜", "유형"])["값"].sum().reset_index()
-
-    # 확진자/사망자 컬럼으로 변환
-    df_pivot = df_agg.pivot(index="날짜", columns="유형", values="값").fillna(0)
-    df_pivot = df_pivot.rename(columns={"확진자":"확진자_수", "사망자":"사망자_수"})
-    df_pivot = df_pivot.reset_index()
+    df["date"] = pd.to_datetime(df["date"])
     
-    return df_pivot
+    return df
 
 
 # -----------------------------
@@ -41,20 +34,22 @@ def build_national_dashboard(df):
     # -------------------------
     fig.add_trace(
         go.Scatter(
-            x=df["날짜"],
-            y=df["확진자_수"],
+            x=df["date"],
+            y=df["total"],
             name="신규 확진자",
-            mode="lines"
+            mode="lines",
+            line=dict(color='royalblue')
         ),
         secondary_y=False
     )
 
     fig.add_trace(
         go.Scatter(
-            x=df["날짜"],
-            y=df["사망자_수"],
+            x=df["date"],
+            y=df["death"],
             name="신규 사망자",
-            mode="lines"
+            mode="lines",
+            line=dict(color='red')
         ),
         secondary_y=True
     )
