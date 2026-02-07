@@ -33,8 +33,7 @@ def build_national_dashboard(df):
     fig = make_subplots(
         shared_xaxes=True,
         vertical_spacing=0.12,
-        specs=[[{"secondary_y": True}]],
-        subplot_titles=("국내 신규 확진자 / 사망자 추이")
+        specs=[[{"secondary_y": True}]]
         )
 
     # -------------------------
